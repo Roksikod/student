@@ -58,7 +58,7 @@ public class StudentController {
         return studentRepo.save(student);
     }
 
-    @PutMapping("/students-study-on-projects")
+    @PutMapping("/students-study-on-courses")
     public Student updateStudentCourses(@RequestParam int studentId, @RequestParam int courseId) {
         Student student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student was not found"));

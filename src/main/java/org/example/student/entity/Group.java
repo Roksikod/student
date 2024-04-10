@@ -1,5 +1,6 @@
 package org.example.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,4 +32,8 @@ public class Group {
     @JsonIgnoreProperties(value = "workedGroups")
     @ManyToMany(mappedBy = "workedGroups")
     List<Tutor> groupWorkes;
+
+    @ManyToOne
+    @JsonBackReference(value = "course_groups")
+    Course course;
 }
