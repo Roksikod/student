@@ -1,5 +1,6 @@
 package org.example.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Student {
 
     @Column(name = "age")
     Integer age;
+
     @JsonIgnoreProperties(value = "passings")
     @ManyToMany
     @JoinTable(name= "student_lesson",
@@ -66,5 +68,10 @@ public class Student {
                     @JoinColumn(name = "course_id", referencedColumnName = "courseId")
             })
     List<Course> studiedCourses;
+
+    @JsonIgnoreProperties(value = "students")
+    @ManyToOne
+    @JoinColumn(name="tutorId")
+    Tutor tutor;
 
 }

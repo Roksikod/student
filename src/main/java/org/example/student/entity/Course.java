@@ -1,12 +1,14 @@
 package org.example.student.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,4 +31,8 @@ public class Course {
     @JsonIgnoreProperties(value = "studiedCourses")
     @ManyToMany(mappedBy = "studiedCourses")
     List<Student> trainees;
+
+    @OneToMany
+    @JsonManagedReference(value = "course_groups")
+    List<Group> groups;
 }

@@ -1,12 +1,14 @@
 package org.example.student.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -56,6 +58,10 @@ public class Tutor {
                     @JoinColumn(name = "group_id", referencedColumnName = "groupId")
             })
     List<Group> workedGroups;
+
+    @JsonIgnoreProperties(value = "tutor")
+    @OneToMany(mappedBy = "tutor")
+    List<Student> tutorStudents = new ArrayList<>();
 }
 
    /* "tutorEmail":"tut1@gmail.com",

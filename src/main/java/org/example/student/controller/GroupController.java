@@ -14,6 +14,8 @@ import java.util.List;
 public class GroupController {
     @Autowired
     private GroupRepo groupRepo;
+    @Autowired
+    private CourseRepo courseRepo;
 
     @GetMapping("/all")
     public List<Group> getAll(){
@@ -27,6 +29,18 @@ public class GroupController {
 
     @PostMapping
     public Group addGroup(@RequestBody Group group){
+        return groupRepo.save(group);
+    }
+
+    @PostMapping("/course-has-groups")
+    public Group updateCourseGroups(@RequestParam int courseId, @RequestParam int groupId) {
+        Group group = groupRepo.findById(groupId)
+                .orElseThrow(() -> new RuntimeException("Group was not found"));
+        Course course = courseRepo.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course was not found"));
+        course.getGroups().add(group);
+        group.setCourse(course);
+        courseRepo.save(course);
         return groupRepo.save(group);
     }
 }

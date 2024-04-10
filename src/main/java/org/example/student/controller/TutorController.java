@@ -2,20 +2,26 @@ package org.example.student.controller;
 
 import org.example.student.entity.Course;
 import org.example.student.entity.Group;
+import org.example.student.entity.Student;
 import org.example.student.entity.Tutor;
 import org.example.student.repository.CourseRepo;
 import org.example.student.repository.GroupRepo;
+import org.example.student.repository.StudentRepo;
 import org.example.student.repository.TutorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("tutors")
 public class TutorController {
     @Autowired
     private TutorRepo tutorRepo;
+
+    @Autowired
+    StudentRepo studentRepo;
 
     @Autowired
     CourseRepo courseRepo;
@@ -55,6 +61,17 @@ public class TutorController {
         Group group = groupRepo.findById(groupId)
                 .orElseThrow(() -> new RuntimeException("Group was not found"));
         tutor.getWorkedGroups().add(group);
+        return tutorRepo.save(tutor);
+    }
+    @PutMapping("/tutor-has-students")
+    public Tutor updateTutorStudents(@RequestParam int tutorId, @RequestParam int studentId) {
+         Student student = studentRepo.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student was not found"));
+        Tutor tutor = tutorRepo.findById(tutorId)
+                .orElseThrow(() -> new RuntimeException("Course was not found"));
+        tutor.getTutorStudents().add(student);
+        student.setTutor(tutor);
+        studentRepo.save(student);
         return tutorRepo.save(tutor);
     }
 }

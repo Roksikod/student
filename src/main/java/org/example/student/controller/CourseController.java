@@ -2,7 +2,11 @@ package org.example.student.controller;
 
 
 import org.example.student.entity.Course;
+import org.example.student.entity.Group;
+import org.example.student.entity.Student;
+import org.example.student.entity.Tutor;
 import org.example.student.repository.CourseRepo;
+import org.example.student.repository.GroupRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +17,7 @@ import java.util.List;
 public class CourseController {
     @Autowired
     private CourseRepo courseRepo;
+
 
     @GetMapping("/all")
     public List<Course> getAll(){
@@ -28,4 +33,5 @@ public class CourseController {
     public Course addCourse(@RequestBody Course course){
         return courseRepo.save(course);
     }
+
 }
