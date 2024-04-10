@@ -1,13 +1,7 @@
 package org.example.student.controller;
 
-import org.example.student.entity.Course;
-import org.example.student.entity.Lesson;
-import org.example.student.entity.Student;
-import org.example.student.entity.Tutor;
-import org.example.student.repository.CourseRepo;
-import org.example.student.repository.LessonRepo;
-import org.example.student.repository.StudentRepo;
-import org.example.student.repository.TutorRepo;
+import org.example.student.entity.*;
+import org.example.student.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +15,9 @@ public class StudentController {
 
     @Autowired
     LessonRepo lessonRepo;
+
+    @Autowired
+    ProjectRepo projectRepo;
 
     @GetMapping("/all")
     public List<Student> getAll() {
@@ -38,12 +35,22 @@ public class StudentController {
     }
 
     @PutMapping("/students-pass-lessons")
-    public Student updateStudent (@RequestParam int studentId, @RequestParam int lessonId){
+    public Student updateStudentLessons (@RequestParam int studentId, @RequestParam int lessonId){
         Student student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student was not found"));
         Lesson lesson = lessonRepo.findById(lessonId)
                 .orElseThrow(() -> new RuntimeException("Lesson was not found"));
         student.getPassedLessons().add(lesson);
+        return studentRepo.save(student);
+    }
+
+    @PutMapping("/students-do-projects")
+    public Student updateStudentProjects (@RequestParam int studentId, @RequestParam int projectId){
+        Student student = studentRepo.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student was not found"));
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Project was not found"));
+        student.getDoneProjects().add(project);
         return studentRepo.save(student);
     }
 }
