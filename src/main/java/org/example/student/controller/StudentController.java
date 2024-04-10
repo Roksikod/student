@@ -19,10 +19,14 @@ public class StudentController {
     @Autowired
     ProjectRepo projectRepo;
 
+    @Autowired
+    CourseRepo courseRepo;
+
     @GetMapping("/all")
     public List<Student> getAll() {
         return studentRepo.findAll();
     }
+
     @GetMapping("/{id}")
     public Student getStudent(@RequestParam int studentId) {
         return studentRepo.findById(studentId)
@@ -35,7 +39,7 @@ public class StudentController {
     }
 
     @PutMapping("/students-pass-lessons")
-    public Student updateStudentLessons (@RequestParam int studentId, @RequestParam int lessonId){
+    public Student updateStudentLessons(@RequestParam int studentId, @RequestParam int lessonId) {
         Student student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student was not found"));
         Lesson lesson = lessonRepo.findById(lessonId)
@@ -45,12 +49,22 @@ public class StudentController {
     }
 
     @PutMapping("/students-do-projects")
-    public Student updateStudentProjects (@RequestParam int studentId, @RequestParam int projectId){
+    public Student updateStudentProjects(@RequestParam int studentId, @RequestParam int projectId) {
         Student student = studentRepo.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student was not found"));
         Project project = projectRepo.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project was not found"));
         student.getDoneProjects().add(project);
+        return studentRepo.save(student);
+    }
+
+    @PutMapping("/students-study-on-projects")
+    public Student updateStudentCourses(@RequestParam int studentId, @RequestParam int courseId) {
+        Student student = studentRepo.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student was not found"));
+        Course course = courseRepo.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course was not found"));
+        student.getStudiedCourses().add(course);
         return studentRepo.save(student);
     }
 }

@@ -25,4 +25,8 @@ public class Course {
     @JsonIgnoreProperties(value = "workedCourses")
     @ManyToMany(mappedBy = "workedCourses")
     List<Tutor> workes;
+
+    @JsonIgnoreProperties(value = "studiedCourses")
+    @ManyToMany(mappedBy = "studiedCourses")
+    List<Student> trainees;
 }

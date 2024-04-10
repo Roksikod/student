@@ -57,4 +57,14 @@ public class Student {
             })
     List<Project> doneProjects;
 
+    @JsonIgnoreProperties(value = "trainees")
+    @ManyToMany
+    @JoinTable(name= "student_course",
+            joinColumns = {
+                    @JoinColumn(name = "student_id", referencedColumnName = "studentId")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+            })
+    List<Course> studiedCourses;
+
 }
