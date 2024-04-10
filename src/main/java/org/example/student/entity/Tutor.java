@@ -46,6 +46,16 @@ public class Tutor {
                     @JoinColumn(name = "course_id", referencedColumnName = "courseId")
             })
     List<Course> workedCourses;
+
+    @JsonIgnoreProperties(value = "groupWorkes")
+    @ManyToMany
+    @JoinTable(name= "tutor_group",
+            joinColumns = {
+                    @JoinColumn(name = "tutor_id", referencedColumnName = "tutorId")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "group_id", referencedColumnName = "groupId")
+            })
+    List<Group> workedGroups;
 }
 
    /* "tutorEmail":"tut1@gmail.com",

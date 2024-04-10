@@ -1,11 +1,13 @@
 package org.example.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,4 +27,8 @@ public class Group {
 
     @Column(name = "study_date")
     String studyDate;
+
+    @JsonIgnoreProperties(value = "workedGroups")
+    @ManyToMany(mappedBy = "workedGroups")
+    List<Tutor> groupWorkes;
 }
