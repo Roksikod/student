@@ -67,4 +67,6 @@ public class StudentController {
         student.getStudiedCourses().add(course);
         return studentRepo.save(student);
     }
+
+
 }
